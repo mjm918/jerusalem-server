@@ -22,14 +22,14 @@ a handshake using a secret key shared between the server and the client, identif
 3. Build the project:
 
     ```bash
-    go build -o jerusalem-tunnel main.go
+    go build -o jerusalem-tunnel -v ./...
     ```
 
 ## Usage
 
 Start the server:
 
-    ./jerusalem-tunnel server --config config.yaml
+    ./jerusalem-tunnel --config config.yaml
 
 
 ## Configuration
