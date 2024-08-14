@@ -10,7 +10,6 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
     name: Build, Test and Package on All Platforms
     strategy:
@@ -33,13 +32,13 @@ jobs:
 
       - name: Package
         run: |
-          mkdir -p release
+          mkdir -p release/mjm918
           if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
-            tar -czvf release/${{ github.repository }}_${{ github.run_number }}_linux_amd64.tar.gz ./*
+            tar -czvf release/mjm918/jerusalem-server_${{ github.run_number }}_linux_amd64.tar.gz ./*
           elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
-            tar -czvf release/${{ github.repository }}_${{ github.run_number }}_darwin_amd64.tar.gz ./*
+            tar -czvf release/mjm918/jerusalem-server_${{ github.run_number }}_darwin_amd64.tar.gz ./*
           else
-            zip -r release\\${{ github.repository }}_${{ github.run_number }}_windows_amd64.zip .\\*
+            zip -r release/mjm918/jerusalem-server_${{ github.run_number }}_windows_amd64.zip ./*
         shell: bash
 
       - name: Upload Release Assets
