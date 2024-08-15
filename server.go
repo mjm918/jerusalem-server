@@ -10,6 +10,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"os/signal"
 	"sync"
 	"syscall"
 	"time"
@@ -74,19 +75,44 @@ func (s *Server) StartServer() error {
 	}
 	log.Printf("Server listening on %s\n", a)
 
+	// Create a channel to listen for an interrupt or termination signal.
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, os.Interrupt, syscall.SIGTERM)
+	shutdownCh := make(chan struct{})
+
+	// Goroutine to handle shutdown signal.
+	go func() {
+		<-sigCh
+		log.Println("Shutdown signal received, closing server...")
+		close(shutdownCh)
+		l.Close() // Close the listener to stop accepting new connections
+	}()
+
 	for {
-		c, e := l.Accept()
-		if e != nil {
-			return fmt.Errorf("error accepting connection: %w", e)
-		}
-		go func() {
-			log.Println("Incoming connection")
-			if e := s.handleConnection(c); e != nil {
-				log.Printf("Connection exited with error: %v\n", e)
-			} else {
-				log.Println("Connection exited")
+		select {
+		case <-shutdownCh:
+			log.Println("Server gracefully shut down")
+			return nil
+		default:
+			c, e := l.Accept()
+			if e != nil {
+				select {
+				case <-shutdownCh:
+					log.Println("Listener closed, shutting down connection handler")
+					return nil
+				default:
+					return fmt.Errorf("error accepting connection: %w", e)
+				}
 			}
-		}()
+			go func() {
+				log.Println("Incoming connection")
+				if e := s.handleConnection(c); e != nil {
+					log.Printf("Connection exited with error: %v\n", e)
+				} else {
+					log.Println("Connection exited")
+				}
+			}()
+		}
 	}
 }
 

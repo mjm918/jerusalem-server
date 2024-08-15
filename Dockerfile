@@ -7,4 +7,4 @@ COPY . .
 RUN go build -o jerusalem-tunnel -v ./...
 ENTRYPOINT ["./jerusalem-tunnel"]
 
-EXPOSE 1024-65535
+EXPOSE 1024-1100
