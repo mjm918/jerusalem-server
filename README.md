@@ -34,10 +34,15 @@ Start the server:
 
 Start the server using Docker:
 
-    ```bash
-    docker build -t jerusalem-tunnel .
-    docker run -d -p 8901:8901 --name jerusalem-tunnel -v $(pwd)/config.yaml:/app/config.yaml jerusalem-tunnel
-    ```
+```bash
+docker build -t jerusalem-tunnel .
+docker run -d -p 8901:8901 --name jerusalem-tunnel -v $(pwd)/config.yaml:/app/config.yaml jerusalem-tunnel
+```
+
+Or using docker compose:
+```bash
+docker compose up -d
+```
 
 ## Configuration
 
