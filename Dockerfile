@@ -8,3 +8,7 @@ RUN go build -o jerusalem-tunnel -v ./...
 ENTRYPOINT ["./jerusalem-tunnel"]
 
 EXPOSE 1024-1100
+
+# Set the image and container name
+LABEL name="jerusalem-tunnel-container"
+LABEL image="jerusalem-tunnel-image"
