@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  jerusalem-tunnel:
+    build: .
+    ports:
+      - "1024-2000:1024-2000"
+      - "8901:8901"
+    environment:
+      - SERVER_PORT=8901
+      - PORT_RANGE=1024...2000
+      - SECRET_KEY=2y6sUp8cBSfNDk7Jq5uLm0xHAIOb9ZGqE4hR1WVXtCwKjP3dYzvTn2QiFXe8rMb6
+    entrypoint: [ "./jerusalem-tunnel" ]
+    restart: always
