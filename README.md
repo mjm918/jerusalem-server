@@ -3,6 +3,7 @@
 Jerusalem Tunnel is a cross-platform `ngrok` alternative written in Go. It allows clients to reserve a port and complete
 a handshake using a secret key shared between the server and the client, identified uniquely by a clientID.
 ![ss.png](.assets/ss.png)
+
 ## Features
 
 - **Cross-Platform**: Works on Windows, macOS, and Linux.
@@ -31,6 +32,12 @@ Start the server:
 
     ./jerusalem-tunnel --config config.yaml
 
+Start the server using Docker:
+
+    ```bash
+    docker build -t jerusalem-tunnel .
+    docker run -d -p 8901:8901 --name jerusalem-tunnel -v $(pwd)/config.yaml:/app/config.yaml jerusalem-tunnel
+    ```
 
 ## Configuration
 
